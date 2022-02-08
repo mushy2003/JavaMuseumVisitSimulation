@@ -11,12 +11,15 @@ public class Turnstile {
     assert !originRoom.equals(destinationRoom);
     this.originRoom = originRoom;
     this.destinationRoom = destinationRoom;
-    // complete here if needed
   }
 
   public Optional<MuseumSite> passToNextRoom() {
-    // to be implemneted
-    return Optional.empty();
+    if (destinationRoom.hasAvailability()) {
+      originRoom.exit();
+      destinationRoom.enter();
+      return Optional.of(destinationRoom);
+    }
+      return Optional.empty();
   }
 
   public MuseumSite getOriginRoom() {

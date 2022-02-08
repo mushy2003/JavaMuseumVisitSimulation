@@ -43,13 +43,24 @@ public class Museum {
   }
 
   public static Museum buildSimpleMuseum() {
-    // to be implemented
-    return null;
+    Entrance entrance = new Entrance();
+    Exit exit = new Exit();
+    MuseumSite exhibitionRoom = new ExhibitionRoom("Exhibition Room", 10);
+    entrance.addExitTurnstile(new Turnstile(entrance, exhibitionRoom));
+    exhibitionRoom.addExitTurnstile(new Turnstile(exhibitionRoom, exit));
+    return new Museum(entrance, exit, Set.of(exhibitionRoom));
   }
 
   public static Museum buildLoopyMuseum() {
-    // to be implemented
-    return null;
+    Entrance entrance = new Entrance();
+    Exit exit = new Exit();
+    MuseumSite venomRoom = new ExhibitionRoom("VenomKillerAndCureRoom", 10);
+    MuseumSite whalesRoom = new ExhibitionRoom("Whales Exhibition Room", 10);
+    entrance.addExitTurnstile(new Turnstile(entrance, venomRoom));
+    venomRoom.addExitTurnstile(new Turnstile(venomRoom, whalesRoom));
+    venomRoom.addExitTurnstile(new Turnstile(venomRoom, exit));
+    whalesRoom.addExitTurnstile(new Turnstile(whalesRoom, venomRoom));
+    return new Museum(entrance, exit, Set.of(venomRoom, whalesRoom));
   }
 
   public Entrance getEntrance() {
