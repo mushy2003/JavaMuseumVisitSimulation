@@ -3,20 +3,34 @@ package museumvisit;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Visitor implements Runnable {
 
   private final String name;
   private MuseumSite currentRoom;
 
+
+
   public Visitor(String name, MuseumSite initialRoom) {
     this.name = name;
     this.currentRoom = initialRoom;
+    currentRoom.enter();
   }
+
 
   public void run() {
     while (thereAreMoreSitesToVisit()) {
       simulateVisitToCurrentRoom();
+      Turnstile turnstile = pickRandomTurnstile();
+      Optional<MuseumSite> nextRoom = turnstile.passToNextRoom();
+      if (nextRoom.isEmpty()) {
+        waitSomeTimeBeforeRetrying();
+      } else {
+        currentRoom = nextRoom.get();
+      }
 
       /*
        * 1. pick a random turnstile

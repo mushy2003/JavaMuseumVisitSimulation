@@ -1,6 +1,9 @@
 package museumvisit;
 
+import java.util.Arrays;
 import java.util.Set;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Museum {
 
@@ -15,13 +18,25 @@ public class Museum {
   }
 
   public static void main(String[] args) {
-    final int numberOfVisitors = 100; // Your solution has to work with any
+    final int numberOfVisitors = 200; // Your solution has to work with any
     // number of visitors
-    final Museum museum = buildSimpleMuseum(); // buildLoopyMuseum();
+    final Museum museum = buildLoopyMuseum(); // buildLoopyMuseum();
 
     // create the threads for the visitors and get them moving
+    Thread threads[] = new Thread[numberOfVisitors];
+
+    Arrays.setAll(threads, t -> new Thread(new Visitor(String.valueOf(t), museum.entrance)));
+    Arrays.stream(threads).forEach(t -> t.start());
 
     // wait for them to complete their visit
+
+    Arrays.stream(threads).forEach(t -> {
+      try {
+        t.join();
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+    });
 
     // Checking no one is left behind
     if (museum.getExit().getOccupancy() == numberOfVisitors) {

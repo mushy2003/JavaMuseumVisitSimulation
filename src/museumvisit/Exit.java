@@ -8,11 +8,11 @@ public class Exit extends MuseumSite {
 
   @Override
   public void enter() {
-    occupancy ++;
+    occupancy++;
   }
 
   @Override
   public void exit() {
-    occupancy --;
+    occupancy--;
   }
 }

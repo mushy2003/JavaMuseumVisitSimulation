@@ -22,12 +22,12 @@ public class ExhibitionRoom extends MuseumSite {
   @Override
   public void enter() {
     if (hasAvailability()) {
-      occupancy ++;
+      occupancy++;
     }
   }
 
   @Override
   public void exit() {
-    occupancy --;
+    occupancy--;
   }
 }
