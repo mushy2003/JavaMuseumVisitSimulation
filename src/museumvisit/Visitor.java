@@ -23,9 +23,13 @@ public class Visitor implements Runnable {
     while (thereAreMoreSitesToVisit()) {
       simulateVisitToCurrentRoom();
       lock.lock();
-      Turnstile turnstile = pickRandomTurnstile();
-      Optional<MuseumSite> nextRoom = turnstile.passToNextRoom();
-      lock.unlock();
+      Optional<MuseumSite> nextRoom;
+      try {
+        Turnstile turnstile = pickRandomTurnstile();
+        nextRoom = turnstile.passToNextRoom();
+      } finally {
+        lock.unlock();
+      }
       if (nextRoom.isEmpty()) {
         waitSomeTimeBeforeRetrying();
       } else {

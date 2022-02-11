@@ -2,15 +2,12 @@ package museumvisit;
 
 import java.util.Arrays;
 import java.util.Set;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class Museum {
 
   private final Entrance entrance;
   private final Exit exit;
   private final Set<MuseumSite> sites;
-  private static final Lock lock = new ReentrantLock();
 
   public Museum(Entrance entrance, Exit exit, Set<MuseumSite> sites) {
     this.entrance = entrance;
@@ -31,13 +28,15 @@ public class Museum {
 
     // wait for them to complete their visit
 
-    Arrays.stream(threads).forEach(t -> {
-      try {
-        t.join();
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
-    });
+    Arrays.stream(threads)
+        .forEach(
+            t -> {
+              try {
+                t.join();
+              } catch (InterruptedException e) {
+                e.printStackTrace();
+              }
+            });
 
     // Checking no one is left behind
     if (museum.getExit().getOccupancy() == numberOfVisitors) {
