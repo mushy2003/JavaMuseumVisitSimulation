@@ -11,8 +11,7 @@ public class Visitor implements Runnable {
 
   private final String name;
   private MuseumSite currentRoom;
-
-
+  public static final Lock lock = new ReentrantLock();
 
   public Visitor(String name, MuseumSite initialRoom) {
     this.name = name;
@@ -20,12 +19,13 @@ public class Visitor implements Runnable {
     currentRoom.enter();
   }
 
-
   public void run() {
     while (thereAreMoreSitesToVisit()) {
       simulateVisitToCurrentRoom();
+      lock.lock();
       Turnstile turnstile = pickRandomTurnstile();
       Optional<MuseumSite> nextRoom = turnstile.passToNextRoom();
+      lock.unlock();
       if (nextRoom.isEmpty()) {
         waitSomeTimeBeforeRetrying();
       } else {

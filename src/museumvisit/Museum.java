@@ -10,6 +10,7 @@ public class Museum {
   private final Entrance entrance;
   private final Exit exit;
   private final Set<MuseumSite> sites;
+  private static final Lock lock = new ReentrantLock();
 
   public Museum(Entrance entrance, Exit exit, Set<MuseumSite> sites) {
     this.entrance = entrance;
@@ -18,9 +19,9 @@ public class Museum {
   }
 
   public static void main(String[] args) {
-    final int numberOfVisitors = 200; // Your solution has to work with any
+    final int numberOfVisitors = 250; // Your solution has to work with any
     // number of visitors
-    final Museum museum = buildLoopyMuseum(); // buildLoopyMuseum();
+    final Museum museum = buildSimpleMuseum(); // buildLoopyMuseum();
 
     // create the threads for the visitors and get them moving
     Thread threads[] = new Thread[numberOfVisitors];

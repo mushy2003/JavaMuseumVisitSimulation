@@ -1,11 +1,15 @@
 package museumvisit;
 
 import java.util.Optional;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Turnstile {
 
   private final MuseumSite originRoom;
   private final MuseumSite destinationRoom;
+
+
 
   public Turnstile(MuseumSite originRoom, MuseumSite destinationRoom) {
     assert !originRoom.equals(destinationRoom);
@@ -13,7 +17,7 @@ public class Turnstile {
     this.destinationRoom = destinationRoom;
   }
 
-  public Optional<MuseumSite> passToNextRoom() {
+  public synchronized Optional<MuseumSite> passToNextRoom() {
     if (destinationRoom.hasAvailability()) {
       originRoom.exit();
       destinationRoom.enter();
