@@ -3,21 +3,29 @@ package museumvisit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public abstract class MuseumSite {
 
   protected final String name;
   protected int occupancy;
   protected List<Turnstile> exitTurnstiles;
+  protected final Lock lock;
 
   public MuseumSite(String name) {
     this.name = name;
     this.occupancy = 0;
     this.exitTurnstiles = new ArrayList<>();
+    this.lock = new ReentrantLock();
   }
 
   boolean hasAvailability() {
     return true;
+  }
+
+  public Lock getLock() {
+    return lock;
   }
 
   public void enter() {

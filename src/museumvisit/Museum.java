@@ -16,9 +16,9 @@ public class Museum {
   }
 
   public static void main(String[] args) {
-    final int numberOfVisitors = 250; // Your solution has to work with any
+    final int numberOfVisitors = 200; // Your solution has to work with any
     // number of visitors
-    final Museum museum = buildSimpleMuseum(); // buildLoopyMuseum();
+    final Museum museum = buildLoopyMuseum(); // buildLoopyMuseum();
 
     // create the threads for the visitors and get them moving
     Thread threads[] = new Thread[numberOfVisitors];

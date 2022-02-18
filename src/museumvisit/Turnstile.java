@@ -16,12 +16,26 @@ public class Turnstile {
   }
 
   public Optional<MuseumSite> passToNextRoom() {
-    if (destinationRoom.hasAvailability()) {
-      originRoom.exit();
-      destinationRoom.enter();
-      return Optional.of(destinationRoom);
+    Optional<MuseumSite> result = Optional.empty();
+    if (destinationRoom.getName().compareTo(originRoom.getName()) >= 0) {
+      destinationRoom.getLock().lock();
+      originRoom.getLock().lock();
+    } else {
+      originRoom.getLock().lock();
+      destinationRoom.getLock().lock();
     }
-    return Optional.empty();
+
+    try {
+      if (destinationRoom.hasAvailability()) {
+        originRoom.exit();
+        destinationRoom.enter();
+        result = Optional.of(destinationRoom);
+      }
+    } finally {
+      originRoom.getLock().unlock();
+      destinationRoom.getLock().unlock();
+    }
+    return result;
   }
 
   public MuseumSite getOriginRoom() {
