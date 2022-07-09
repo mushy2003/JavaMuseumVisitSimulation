@@ -3,6 +3,7 @@ package museumvisit;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Visitor implements Runnable {
 
@@ -12,6 +13,7 @@ public class Visitor implements Runnable {
   public Visitor(String name, MuseumSite initialRoom) {
     this.name = name;
     this.currentRoom = initialRoom;
+    initialRoom.enter();
   }
 
   public void run() {
@@ -26,6 +28,14 @@ public class Visitor implements Runnable {
        * 2b) if unsuccessful (i.e., passToNextRoom() returned an empty Optional),
        * waitSomeTimeBeforeRetrying(), and then retry from step 1.
        */
+
+      Turnstile turnstile = pickRandomTurnstile();
+      Optional<MuseumSite> nextRoom = turnstile.passToNextRoom();
+      if (nextRoom.isPresent()) {
+        currentRoom = nextRoom.get();
+      } else {
+        waitSomeTimeBeforeRetrying();
+      }
 
     }
   }

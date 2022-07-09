@@ -3,8 +3,12 @@ package museumvisit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public abstract class MuseumSite {
+
+  protected final Lock lock = new ReentrantLock();
 
   protected final String name;
   protected int occupancy;
@@ -16,17 +20,17 @@ public abstract class MuseumSite {
     this.exitTurnstiles = new ArrayList<>();
   }
 
-  boolean hasAvailability() {
+  public boolean hasAvailability() {
     return true;
   }
 
   public void enter() {
-    // to be implemented
+    occupancy++;
   }
 
   public void exit() {
     assert occupancy > 0;
-    // to be implemented
+    occupancy--;
   }
 
   public void addExitTurnstile(Turnstile turnstile) {

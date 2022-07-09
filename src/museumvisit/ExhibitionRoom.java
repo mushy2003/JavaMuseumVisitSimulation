@@ -2,14 +2,20 @@ package museumvisit;
 
 public class ExhibitionRoom extends MuseumSite {
 
+  protected int capacity;
+
   public ExhibitionRoom(String name, int capacity) {
     super(name);
     assert capacity > 0;
-
-    // complete here if needed
+    this.capacity = capacity;
   }
 
   public int getCapacity() {
-    return -1;
+    return capacity;
+  }
+
+  @Override
+  public boolean hasAvailability() {
+    return occupancy < capacity;
   }
 }
