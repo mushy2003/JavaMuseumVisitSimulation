@@ -11,7 +11,6 @@ public class Turnstile {
     assert !originRoom.equals(destinationRoom);
     this.originRoom = originRoom;
     this.destinationRoom = destinationRoom;
-    // complete here if needed
   }
 
   public Optional<MuseumSite> passToNextRoom() {

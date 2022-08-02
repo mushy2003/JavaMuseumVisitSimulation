@@ -16,9 +16,8 @@ public class Museum {
   }
 
   public static void main(String[] args) {
-    final int numberOfVisitors = 100; // Your solution has to work with any
-    // number of visitors
-    final Museum museum = buildLoopyMuseum(); // buildLoopyMuseum();
+    final int numberOfVisitors = 100; // Your solution has to work with any number of visitors
+    final Museum museum = buildLoopyMuseum(); // buildSimpleMuseum();
 
     // create the threads for the visitors and get them moving
     final Thread[] visitors = new Thread[numberOfVisitors];
@@ -38,7 +37,6 @@ public class Museum {
                 e.printStackTrace();
               }
             });
-
 
     // Checking no one is left behind
     if (museum.getExit().getOccupancy() == numberOfVisitors) {
@@ -68,7 +66,6 @@ public class Museum {
     exhibitionRoom.addExitTurnstile(new Turnstile(exhibitionRoom, exit));
 
     return new Museum(entrance, exit, Set.of(entrance, exhibitionRoom, exit));
-
   }
 
   public static Museum buildLoopyMuseum() {
